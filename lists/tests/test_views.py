@@ -1,17 +1,12 @@
-from django.core.urlresolvers import resolve
-from django.http import HttpRequest
-from django.template.loader import render_to_string
 from django.test import TestCase
 from django.utils.html import escape
-from unittest import skip
 
 from lists.models import Item, List
-from lists.views import home_page
 from lists.forms import ItemForm, EMPTY_ITEM_ERROR
 
 
 class HomePageTest(TestCase):
-    
+
     def test_home_page_renders_home_template(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
@@ -83,7 +78,7 @@ class ListViewTest(TestCase):
         list_ = List.objects.create()
         return self.client.post(
             '/lists/%d/' % (list_.id,),
-             data={'text': ''}
+            data={'text': ''}
         )
 
     def test_for_invalid_input_nothing_saved_to_db(self):
@@ -102,7 +97,6 @@ class ListViewTest(TestCase):
     def test_for_invalid_input_shows_error_on_page(self):
         response = self.post_invalid_input()
         self.assertContains(response, escape(EMPTY_ITEM_ERROR))
-
 
 
 class NewListTest(TestCase):
@@ -141,4 +135,3 @@ class NewListTest(TestCase):
     def test_for_invalid_input_passes_form_to_template(self):
         response = self.client.post('/lists/new', data={'text': ''})
         self.assertIsInstance(response.context['form'], ItemForm)
-
