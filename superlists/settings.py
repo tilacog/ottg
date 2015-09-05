@@ -23,8 +23,10 @@ SECRET_KEY = '#ipildbitt5ec6^58$yg^i+14wu#!biv*z@^t&4o_q)ss=o2f^'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
+# This setting is changed by the deploy script
+DOMAIN = 'localhost'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [DOMAIN]
 
 
 # Application definition
