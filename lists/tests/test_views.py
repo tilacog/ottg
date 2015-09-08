@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 User = get_user_model()
+
+from django.http import HttpRequest
 from django.test import TestCase
 from django.utils.html import escape
 from unittest import skip
@@ -9,6 +11,7 @@ from lists.forms import (
     DUPLICATE_ITEM_ERROR, EMPTY_ITEM_ERROR,
     ExistingListItemForm, ItemForm
 )
+from lists.views import new_list
 
 
 class HomePageTest(TestCase):
@@ -154,6 +157,14 @@ class NewListTest(TestCase):
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, 'list.html')
         self.assertEqual(Item.objects.all().count(), 1)
+
+    def test_list_owner_is_saved_if_user_is_authenticated(self):
+        request = HttpRequest()
+        request.user = User.objects.create(email='a@b.com')
+        request.POST['text'] = 'new list item'
+        new_list(request)
+        list_ = List.objects.first()
+        self.assertEqual(list_.owner, request.user)
 
 
 class MyListsTest(TestCase):
