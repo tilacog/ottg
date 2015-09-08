@@ -10,3 +10,6 @@ class User(models.Model):
 
     def is_authenticated(self):
         return True
+
+    def __str__(self):
+        return self.email
