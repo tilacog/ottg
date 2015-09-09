@@ -4,4 +4,4 @@ __pycache__
 *.txt
 *.markdown
 *.swp
-screendumps
+functional_tests/screendumps
