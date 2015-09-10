@@ -5,10 +5,23 @@
 {% block list_form %}{% endblock %}
 
 {% block extra_content %}
-    <h2>{{ owner.email }}'s lists</h2>
-    <ul>
+    <h3>{{ owner.email }}'s lists</h3>
+    {% if owner.list_set.all %}
+    <ul class="list-group">
         {% for list in owner.list_set.all %}
-            <li><a href="{{ list.get_absolute_url }}">{{ list.name }}</a></li>
+            <li class="list-group-item"><a href="{{ list.get_absolute_url }}">{{ list.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="alert alert-info">
+        <p><strong>Oh no!</strong>You haven't authored any list yet... :(</p>
+    </div>
+    {% endif %}
+
+    <h3>Lists shared with me</h3>
+    <ul class="list-group">
+        {% for list in owner.shared_lists.all %}
+            <li class="list-group-item"><a href="{{ list.get_absolute_url }}">{{ list.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
